@@ -1,0 +1,84 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>Kaze - 風</title>
+<style type="text/css">
+pre {
+  background-color: #ddd;
+  border-width: 1px;
+  border-color: #ccc #ccc #aaa;
+  border-style: solid;
+  color: #000;
+  padding: .73em;
+}
+
+span {
+  display: block;
+  background-color: #666;
+  float: left;
+  width: 10%;
+  height: .5em;
+}
+
+#bar {
+  background-color: #ddd;
+  width: 0;
+  margin: 0 auto;
+}
+</style>
+</head>
+<body>
+<h1>Kaze - 風</h1>
+<p>The UI thread still recieves high priority while Kaze runs asserts under
+heavy repetition. The animated bar changes width up to 30 times per second,
+forcing reflow and repaint. Watch log for onresult event updates.</p>
+
+<p>Name prefix indicates the expected result for each test.</p>
+
+<span></span>
+<span id="bar"></span>
+<span></span>
+
+</body>
+<script>
+// Observe UI thread is free above long running queue processing
+(function () {
+  var bar = document.getElementById("bar"),
+      min = 0,
+      max = 75,
+      width = min,
+      step = 1,
+      up = true,
+      start = +new Date,
+      interval = 33;
+
+      setTimeout(function bounce () {
+        if (up) {
+          width = width + step;
+          if (width > max) {
+            width = max;
+            up = false;
+          }
+        } else {
+          width = width - step;
+          if (width < min) {
+            width = min;
+            up = true;
+          }
+        }
+
+        bar.style.width = width + "%";
+
+        if (+new Date - start < 30000) {
+          setTimeout(bounce, interval);
+        } else {
+          log("Ceasing bar animation.")
+        }
+      }, interval);
+
+})();
+</script>
+<script src="../kaze.js"></script>
+<script src="log.js"></script>
+<script src="tests.js"></script>
+</html>
