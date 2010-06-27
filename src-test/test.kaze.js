@@ -3,9 +3,18 @@ var defs = {
     return [1,2,3].length == 3;
   },
   "pass:delegate": function (del) {
-    var start = +new Date;
-    // assert truish
-    setTimeout(del(function(){return 1;}), 200);
+    var start = +new Date,
+        delegate = del(function () {
+          // assert truish
+          return 1;
+        });
+    delegate();
+  },
+  "pass:delegate with arguments": function (del) {
+    var delegate = del(function (result) {
+      return result;
+    });
+    delegate(true);
   },
   "pass:slow": function () {
     var start = +new Date;
@@ -17,9 +26,12 @@ var defs = {
     return [1,2,3].length == 0;
   },
   "fail:delegate": function (del) {
-    var start = +new Date;
-    // assert falsey
-    setTimeout(del(function(){return '';}), 200);
+    var start = +new Date,
+        delegate = del(function () {
+          // assert falsey
+          return '';
+        });
+    delegate();
   }
 };
 
@@ -60,4 +72,4 @@ k.run(function (n, p, e, l, r) {
 }, /slow/);
 
 // Mimic a (very) greedy process
-k.run(onresult, /slow/, 450);
+k.run(onresult, /slow/, 250);

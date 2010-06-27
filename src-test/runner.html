@@ -12,18 +12,17 @@ pre {
   padding: .73em;
 }
 
-span {
+#bar {
   display: block;
   background-color: #666;
-  float: left;
-  width: 10%;
+  width: 0;
   height: .5em;
+  margin: 0 auto 0.5em;
+  overflow: hidden;
 }
 
-#bar {
-  background-color: #ddd;
-  width: 0;
-  margin: 0 auto;
+div.log {
+  clear:left;
 }
 </style>
 </head>
@@ -31,13 +30,12 @@ span {
 <h1>Kaze - 風</h1>
 <p>The UI thread still recieves high priority while Kaze runs asserts under
 heavy repetition. The animated bar changes width up to 30 times per second,
-forcing reflow and repaint. Watch log for onresult event updates.</p>
+forcing reflow and repaint.</p>
 
-<p>Name prefix indicates the expected result for each test.</p>
+<p>Watch log for onresult event updates. Name prefix indicates the expected
+result for each test.</p>
 
-<span></span>
 <span id="bar"></span>
-<span></span>
 
 </body>
 <script>
@@ -69,7 +67,7 @@ forcing reflow and repaint. Watch log for onresult event updates.</p>
 
         bar.style.width = width + "%";
 
-        if (+new Date - start < 30000) {
+        if (+new Date - start < 15000) {
           setTimeout(bounce, interval);
         } else {
           log("Ceasing bar animation.")
@@ -78,7 +76,7 @@ forcing reflow and repaint. Watch log for onresult event updates.</p>
 
 })();
 </script>
-<script src="../kaze.js"></script>
-<script src="log.js"></script>
-<script src="tests.js"></script>
+<script src="../src/kaze.js"></script>
+<script src="res/log.js"></script>
+<script src="test.kaze.js"></script>
 </html>
