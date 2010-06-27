@@ -1,4 +1,8 @@
-
+/*!
+Copyright (c) 2010, Matthew Seeley, All rights reserved
+BSD Licensed: http://github.com/mseeley/kaze/blob/master/LICENSE
+      Source: git://github.com/mseeley/kaze.git
+*/
 (function (global) {
 
   var running = false,
